@@ -1,7 +1,7 @@
 // Builds dist/ from src/: inlines the SVG artwork into the page, generates the program artwork
 // module and adds content hashes to CSS/JS URLs so browsers never keep a stale version.
 // --with-server points the consultation form at /api/leads (server/index.mjs); without it the
-// site is fully static (GitHub Pages) and the form prepares a Telegram draft.
+// site is fully static (Vercel) and the form prepares a Telegram draft.
 import { createHash } from 'node:crypto';
 import fs from 'node:fs/promises';
 import path from 'node:path';
