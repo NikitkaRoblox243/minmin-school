@@ -2416,7 +2416,7 @@ svg.first-word-leaf {
   border: 0;
   background: #e6e5db;
   overflow: hidden;
-  aspect-ratio: 4 / 5;
+  aspect-ratio: 1 / 1;
   border-radius: 7px;
 }
 .teacher-photo img {
@@ -2510,8 +2510,8 @@ svg.first-word-leaf {
 }
 .teacher-grid {
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
 }
 .teacher-photo > span {
   font-size: 21px;
