@@ -24,6 +24,9 @@ test('the build inlines every illustration and versions every CSS/JS reference',
     const { programArt } = await import(pathToFileURL(path.join(outDir, 'artwork.js')).href);
     assert.deepEqual(Object.keys(programArt), ['children', 'adults', 'exams', 'business']);
     await fs.access(path.join(outDir, 'assets/teachers/margarita.jpg'));
+    assert.match(html, /data-endpoint=""/, 'the static build never calls a lead server');
+    await build({ outDir, withServer: true });
+    assert.match(await fs.readFile(path.join(outDir, 'index.html'), 'utf8'), /data-endpoint="\/api\/leads"/);
   } finally {
     await fs.rm(outDir, { recursive: true, force: true });
   }

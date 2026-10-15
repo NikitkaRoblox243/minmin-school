@@ -6,7 +6,7 @@ COPY package.json ./
 COPY scripts ./scripts
 COPY server ./server
 COPY src ./src
-RUN node scripts/build.mjs
+RUN node scripts/build.mjs --with-server
 USER node
 EXPOSE 8080
 CMD ["node", "server/index.mjs"]
