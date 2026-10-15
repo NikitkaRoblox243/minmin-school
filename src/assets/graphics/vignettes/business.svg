@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="220" viewBox="0 0 320 220" fill="none">
+  <title>Ноутбук, разговор и портфель</title>
+  <g stroke-linecap="round" stroke-linejoin="round">
+    <path d="M26 189C69 180 98 187 136 183C187 178 233 178 292 187L280 199H38Z" fill="#e6edcf"/>
+    <path d="M45 46H130C137 46 141 51 141 58V86C141 94 137 98 130 98H80L65 110L68 98H45C38 98 34 94 34 87V58C34 51 38 46 45 46Z" fill="#fffdf8" stroke="#b74337" stroke-width="1.8"/>
+    <circle cx="64" cy="73" r="4" fill="#b74337"/>
+    <circle cx="88" cy="73" r="4" fill="#b74337"/>
+    <circle cx="112" cy="73" r="4" fill="#b74337"/>
+    <path d="M157 39C168 31 178 36 178 42C178 48 171 51 166 47M178 42C190 33 203 39 203 46C203 53 211 54 217 49" stroke="#657640" stroke-width="1.5"/>
+    <path d="M46 115C46 109 49 106 55 106H165C171 106 175 109 175 115V172H46Z" fill="#657640" stroke="#272c27" stroke-width="1.8"/>
+    <path d="M53 114H168V164H53Z" fill="#fffdf8" stroke="#272c27" stroke-width="1.2"/>
+    <path d="M63 153V140M78 153V131M93 153V137M108 153V124" stroke="#b74337" stroke-width="7"/>
+    <path d="M125 125H155M125 134H148M125 147H154" stroke="#657640" stroke-width="1.3"/>
+    <path d="M46 172H175L193 185C192 190 186 192 181 192H39C34 192 29 190 28 185Z" fill="#e6edcf" stroke="#272c27" stroke-width="1.8"/>
+    <path d="M37 184H183M91 174L86 181H127L121 174" stroke="#657640" stroke-width="1.2"/>
+    <path d="M206 107V94C206 77 244 77 244 94V107" stroke="#272c27" stroke-width="5"/>
+    <path d="M206 107V94C206 77 244 77 244 94V107" stroke="#fffdf8" stroke-width="1.8"/>
+    <rect x="182" y="107" width="99" height="80" rx="8" fill="#b74337" stroke="#272c27" stroke-width="1.8"/>
+    <path d="M182 119L193 140H270L281 119" stroke="#fffdf8" stroke-width="1.5"/>
+    <path d="M196 154V177M267 154V177" stroke="#fffdf8" stroke-width="1.3"/>
+    <rect x="224" y="133" width="16" height="18" rx="2" fill="#fffdf8" stroke="#272c27" stroke-width="1.3"/>
+    <path d="M232 137V145" stroke="#b74337" stroke-width="1.4"/>
+    <path d="M275 80L280 68M287 88L299 82" stroke="#657640" stroke-width="1.6"/>
+  </g>
+</svg>

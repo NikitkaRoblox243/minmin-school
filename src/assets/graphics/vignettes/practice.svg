@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="220" viewBox="0 0 320 220" fill="none">
+  <title>Кисть, тушечница и лист для практики иероглифов</title>
+  <g stroke-linecap="round" stroke-linejoin="round">
+    <path d="M32 191C73 182 115 190 153 183C191 177 239 182 285 188L276 200H42Z" fill="#e6edcf"/>
+    <g transform="rotate(6 202 111)">
+      <path d="M121 33H265V180H121Z" fill="#fffdf8" stroke="#272c27" stroke-width="1.8"/>
+      <path d="M129 41H257V171H129Z" stroke="#657640" stroke-width="1.2"/>
+      <path d="M154.6 41V171M180.2 41V171M205.8 41V171M231.4 41V171M129 67H257M129 93H257M129 119H257M129 145H257" stroke="#657640" stroke-width="1"/>
+      <path d="M129 54H257M129 80H257M129 106H257M129 132H257M129 158H257M141.8 41V171M167.4 41V171M193 41V171M218.6 41V171M244.2 41V171" stroke="#e6edcf" stroke-width="1" stroke-dasharray="2 4"/>
+      <path d="M160 74H174M162 80H172M159 87H175" stroke="#b74337" stroke-width="2.2"/>
+      <path d="M194 98C194 106 191 111 186 115M193 104C196 109 199 112 202 115" stroke="#b74337" stroke-width="2.2"/>
+      <path d="M211 127H226M219 123V141M218 129L210 138M220 130L227 138" stroke="#b74337" stroke-width="2.2"/>
+    </g>
+    <path d="M42 166C43 162 47 159 53 159H104C111 159 115 162 116 166L122 188C123 195 118 199 111 199H46C38 199 34 195 36 188Z" fill="#272c27" stroke="#272c27" stroke-width="1.6"/>
+    <path d="M50 167H104C107 167 109 169 110 172L114 184C115 189 111 192 107 192H49C44 192 42 189 43 185L46 172C46 169 48 167 50 167Z" fill="#657640" stroke="#e6edcf" stroke-width="1.2"/>
+    <ellipse cx="79" cy="180" rx="27" ry="7" fill="#272c27"/>
+    <path d="M58 178C67 175 79 175 88 178" stroke="#fffdf8" stroke-width="1.2"/>
+    <g transform="rotate(-26 77 100)" stroke="#272c27" stroke-width="1.5">
+      <path d="M72 42V35C72 27 83 27 83 35V42" stroke="#b74337"/>
+      <rect x="72" y="41" width="11" height="90" rx="2" fill="#fffdf8"/>
+      <path d="M72 42H83V51H72ZM72 121H83V131H72Z" fill="#b74337"/>
+      <path d="M76 57V114" stroke="#657640" stroke-width="1.2"/>
+      <path d="M72 131C71 141 73 151 77.5 166C82 151 84 141 83 131Z" fill="#272c27"/>
+      <path d="M76 135C75 142 76 149 77.5 155" stroke="#e6edcf" stroke-width="1"/>
+    </g>
+    <path d="M276 36C286 35 293 42 297 52C285 54 279 48 276 36Z" fill="#657640"/>
+    <path d="M280 40L294 51" stroke="#e6edcf" stroke-width="1.1"/>
+  </g>
+</svg>

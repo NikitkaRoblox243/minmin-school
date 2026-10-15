@@ -1,0 +1,18 @@
+[
+  {
+    "family": "Golos Text",
+    "subset": "cyrillic",
+    "file": "golos-text-cyrillic.woff2",
+    "url": "https://fonts.gstatic.com/s/golostext/v7/q5uCsoe9Lv5t7Meb31EcExd8hLxR.woff2",
+    "bytes": 22032,
+    "weights": "400 700"
+  },
+  {
+    "family": "Golos Text",
+    "subset": "latin",
+    "file": "golos-text-latin.woff2",
+    "url": "https://fonts.gstatic.com/s/golostext/v7/q5uCsoe9Lv5t7Meb31EcExN8hA.woff2",
+    "bytes": 37916,
+    "weights": "400 700"
+  }
+]

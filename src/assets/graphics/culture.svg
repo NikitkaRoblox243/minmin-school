@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="600" viewBox="0 0 600 600" fill="none">
+  <title>Книга, китайский чай и кисть для каллиграфии</title>
+  <!-- A single cut-paper landscape supports the objects without enclosing them. -->
+  <path d="M65 380L155 188C161 175 168 174 176 187L226 265L298 83C304 68 315 67 325 83L416 272L467 179C474 167 482 171 488 187L558 380Z" fill="#e6edcf"/>
+  <path d="M157 189L187 238L203 221M300 88L275 206L293 194L310 218L327 191L351 223M467 184L447 269" stroke="#73834c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M74 383H557" stroke="#73834c" stroke-width="1.8" stroke-linecap="round"/>
+
+  <!-- Ruyi curls are drawn in the same hand as the separate cloud motif. -->
+  <g transform="translate(62 116) scale(.64)" stroke="#bf493d" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M25 64C10 66 5 49 18 42C17 26 35 17 49 24C55 8 78 8 89 22C101 10 124 17 127 33C143 16 170 20 175 39C191 29 216 35 221 49C228 65 216 77 200 72C193 70 189 65 189 60C184 65 176 68 165 68H75C60 68 52 76 38 76C29 76 23 71 25 64Z" fill="#fffdf8"/>
+    <path d="M25 64H42C52 64 59 60 59 52C59 45 53 41 47 43C40 45 40 52 45 55M49 25C59 21 69 25 70 34C71 41 65 47 58 44M89 23C98 19 110 24 111 33C112 41 104 45 97 41M127 34C139 27 154 33 154 44C154 53 145 59 135 55M175 40C181 46 181 54 175 58H105M189 60C189 50 200 44 206 49C213 54 209 62 203 62"/>
+  </g>
+
+  <!-- A low, round Chinese tea vessel: curved spout, open handle and fitted lid. -->
+  <path d="M450 252C489 223 532 237 535 269C539 306 506 331 469 315L465 295C491 308 516 291 516 271C516 252 493 247 470 265Z" fill="#bf493d" stroke="#272c27" stroke-width="1.8" stroke-linejoin="round"/>
+  <path d="M306 261C282 254 268 240 264 224C261 216 257 213 247 215C250 247 269 277 302 293Z" fill="#bf493d" stroke="#272c27" stroke-width="1.8" stroke-linejoin="round"/>
+  <path d="M299 269C302 238 335 218 383 216C432 213 475 238 477 279C480 324 440 357 387 357C335 357 296 321 299 269Z" fill="#bf493d" stroke="#272c27" stroke-width="1.8"/>
+  <path d="M325 233C337 220 360 211 385 211C411 211 438 220 448 233C423 244 351 244 325 233Z" fill="#bf493d" stroke="#272c27" stroke-width="1.8"/>
+  <path d="M377 211V201C377 194 393 194 393 201V211" fill="#bf493d" stroke="#272c27" stroke-width="1.8" stroke-linecap="round"/>
+  <path d="M317 278C321 310 348 335 378 338" stroke="#fffdf8" stroke-width="2.2" stroke-linecap="round"/>
+  <path d="M367 291C367 283 378 278 384 284C389 288 389 295 384 298C380 301 374 299 374 295M384 284C390 277 402 281 403 288C404 296 411 299 419 296" stroke="#fffdf8" stroke-width="1.8" stroke-linecap="round"/>
+
+  <!-- The white open workbook has a red cloth cover and a quiet ruled spread. -->
+  <g transform="rotate(-7 238 455)" stroke-linejoin="round">
+    <path d="M76 390C135 372 185 391 232 415C278 379 328 378 392 394L398 514C339 503 286 522 239 554C184 528 130 519 76 531Z" fill="#bf493d" stroke="#272c27" stroke-width="1.8"/>
+    <path d="M80 380C137 365 186 382 230 405C280 369 331 369 390 383L394 503C335 493 286 512 238 544C184 519 131 508 80 520Z" fill="#fffdf8" stroke="#272c27" stroke-width="1.8"/>
+    <path d="M230 405L238 544" stroke="#272c27" stroke-width="1.8"/>
+    <path d="M95 400C137 393 178 405 211 422M95 421C137 415 178 426 212 443M96 442C138 437 179 447 213 464M251 419C290 395 327 390 373 397M252 440C291 415 328 411 373 418M253 461C291 437 329 432 374 439" stroke="#73834c" stroke-width="1.25" stroke-linecap="round"/>
+    <path d="M318 378L320 446L333 437L345 444L343 377" fill="#e6edcf" stroke="#73834c" stroke-width="1.25"/>
+    <path d="M80 525C132 513 184 523 239 549C286 518 339 500 395 510" stroke="#fffdf8" stroke-width="1.2"/>
+  </g>
+
+  <!-- An actual brush profile, with a narrow handle and tapered ink bristles. -->
+  <g transform="rotate(17 516 338)" stroke="#272c27" stroke-width="1.8" stroke-linejoin="round">
+    <path d="M510 140V129C510 116 522 116 522 129V140" stroke="#bf493d" fill="none"/>
+    <path d="M509 138H523V428H509Z" fill="#fffdf8"/>
+    <path d="M509 138H523V155H509ZM509 410H523V429H509Z" fill="#bf493d"/>
+    <path d="M509 429C501 449 502 478 516 514C530 478 531 449 523 429Z" fill="#272c27"/>
+    <path d="M512 443C509 462 511 481 516 500" stroke="#fffdf8" stroke-width="1.1" stroke-linecap="round"/>
+  </g>
+</svg>

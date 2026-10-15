@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="220" viewBox="0 0 320 220" fill="none">
+  <title>Лист с заданиями, ручка и академическая шапочка</title>
+  <g stroke-linecap="round" stroke-linejoin="round">
+    <path d="M38 193C81 180 124 188 166 179C202 172 252 184 281 189L269 200H52Z" fill="#e6edcf"/>
+    <g transform="rotate(-7 117 116)">
+      <path d="M66 34H146L170 58V186H66Z" fill="#fffdf8" stroke="#272c27" stroke-width="1.8"/>
+      <path d="M146 34V58H170" fill="#e6edcf" stroke="#272c27" stroke-width="1.5"/>
+      <path d="M80 54H130M80 64H119" stroke="#657640" stroke-width="1.5"/>
+      <rect x="79" y="81" width="15" height="15" rx="2" fill="#e6edcf" stroke="#657640" stroke-width="1.2"/>
+      <rect x="79" y="110" width="15" height="15" rx="2" fill="#e6edcf" stroke="#657640" stroke-width="1.2"/>
+      <rect x="79" y="139" width="15" height="15" rx="2" fill="#e6edcf" stroke="#657640" stroke-width="1.2"/>
+      <path d="M81 86L87 91L99 77M81 115L87 120L99 106M81 144L87 149L99 135" stroke="#b74337" stroke-width="2.8"/>
+      <path d="M105 84H152M105 92H138M105 113H152M105 121H142M105 142H152M105 150H136M80 170H151" stroke="#657640" stroke-width="1.2"/>
+    </g>
+    <path d="M173 73V99C196 114 222 113 244 99V73" fill="#657640" stroke="#272c27" stroke-width="1.8"/>
+    <path d="M150 68L210 44L274 67L212 92Z" fill="#272c27" stroke="#272c27" stroke-width="1.8"/>
+    <path d="M164 69L210 52L258 68" stroke="#e6edcf" stroke-width="1.5"/>
+    <path d="M211 70L259 87V115" stroke="#b74337" stroke-width="2.5"/>
+    <circle cx="211" cy="70" r="3" fill="#e6edcf"/>
+    <path d="M259 112C254 113 251 124 251 137H267C267 124 264 113 259 112Z" fill="#b74337" stroke="#272c27" stroke-width="1.2"/>
+    <path d="M255 119V134M260 119V134" stroke="#fffdf8" stroke-width="1"/>
+    <g transform="rotate(29 221 157)" stroke="#272c27" stroke-width="1.5">
+      <path d="M216 113H226V184L221 197L216 184Z" fill="#b74337"/>
+      <path d="M216 113V106C216 101 226 101 226 106V113" fill="#fffdf8"/>
+      <path d="M216 178H226M219 184V192" stroke="#fffdf8" stroke-width="1.2"/>
+      <path d="M216 184L221 197L226 184Z" fill="#fffdf8"/>
+      <path d="M219 193L221 197L223 193" fill="#272c27"/>
+    </g>
+    <path d="M41 59L48 52M39 74H49" stroke="#b74337" stroke-width="1.6"/>
+  </g>
+</svg>

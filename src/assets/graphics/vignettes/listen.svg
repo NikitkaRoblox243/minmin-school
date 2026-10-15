@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="220" viewBox="0 0 320 220" fill="none">
+  <title>Наушники и четыре тона китайского языка</title>
+  <g stroke-linecap="round" stroke-linejoin="round">
+    <path d="M43 187C73 178 99 179 131 183C164 188 196 180 230 185L239 197H51Z" fill="#e6edcf"/>
+    <path d="M56 120V105C56 63 82 32 125 32C168 32 194 63 194 105V120H182V105C182 70 161 44 125 44C89 44 68 70 68 105V120Z" fill="#657640" stroke="#272c27" stroke-width="1.8"/>
+    <path d="M63 94C67 58 91 38 125 38C159 38 183 58 187 94" stroke="#e6edcf" stroke-width="1.4"/>
+    <rect x="57" y="106" width="10" height="18" rx="4" fill="#657640" stroke="#272c27" stroke-width="1.6"/>
+    <rect x="183" y="106" width="10" height="18" rx="4" fill="#657640" stroke="#272c27" stroke-width="1.6"/>
+    <rect x="44" y="116" width="34" height="53" rx="13" fill="#e6edcf" stroke="#272c27" stroke-width="1.8"/>
+    <rect x="172" y="116" width="34" height="53" rx="13" fill="#e6edcf" stroke="#272c27" stroke-width="1.8"/>
+    <rect x="70" y="112" width="16" height="61" rx="7" fill="#b74337" stroke="#272c27" stroke-width="1.8"/>
+    <rect x="164" y="112" width="16" height="61" rx="7" fill="#b74337" stroke="#272c27" stroke-width="1.8"/>
+    <path d="M54 128V157M196 128V157M78 122V163M172 122V163" stroke="#fffdf8" stroke-width="1.4"/>
+    <rect x="96" y="103" width="58" height="45" rx="9" fill="#fffdf8" stroke="#657640" stroke-width="1.5"/>
+    <path d="M105 116H119M131 120L144 111M105 132L111 137L120 128M132 129L145 138" stroke="#b74337" stroke-width="2"/>
+    <path d="M219 103C229 111 229 128 219 136M235 88C254 104 254 136 235 151M251 75C278 97 278 140 251 163" stroke="#b74337" stroke-width="2.4"/>
+    <path d="M238 190C242 171 259 160 281 160C276 180 260 193 238 190Z" fill="#657640" stroke="#272c27" stroke-width="1.5"/>
+    <path d="M232 198L274 168M252 184L255 173M261 176L271 177" stroke="#e6edcf" stroke-width="1.3"/>
+    <path d="M36 81C25 77 24 65 32 60C41 66 44 75 36 81Z" fill="#b74337"/>
+  </g>
+</svg>
