@@ -78,6 +78,9 @@ h3 {
 [hidden] {
   display: none !important;
 }
+.nowrap {
+  white-space: nowrap;
+}
 :focus-visible {
   outline: 3px solid var(--red);
   outline-offset: 5px;
@@ -845,8 +848,7 @@ svg.garden-cloud {
     font-size: 8px;
   }
   .garden-cloud--left {
-    top: 12px;
-    left: -50px;
+    display: none;
   }
   .garden-cloud--right {
     top: 228px;
@@ -879,6 +881,15 @@ svg.garden-cloud {
   }
   .garden-hello {
     bottom: 9px;
+  }
+}
+/* Портретные планшеты: широкая панорама оставляет пустоту над садом. */
+@media (min-width: 551px) and (max-width: 1100px) and (orientation: portrait) {
+  .garden-panorama > .garden-art--wide {
+    display: none;
+  }
+  .garden-panorama > .garden-art--mobile {
+    display: block;
   }
 }
 @media (min-width: 701px) and (max-width: 850px) {
@@ -2197,6 +2208,7 @@ svg.first-word-leaf {
 @media (max-width: 700px) {
   .method-aside p {
     font-size: 10px;
+    white-space: nowrap;
   }
   .method-grid article {
     padding-top: 20px;
@@ -2267,6 +2279,7 @@ svg.first-word-leaf {
   .method-aside > svg {
     width: 115px;
     right: -8px;
+    bottom: 16px;
   }
   .method-art > svg {
     width: 150px;
@@ -2782,6 +2795,7 @@ svg.first-word-leaf {
   bottom: 6px;
   width: 100%;
   height: auto;
+  max-height: calc(100% - 165px);
 }
 @media (max-width: 1100px) {
   .culture-layout {
@@ -2794,6 +2808,9 @@ svg.first-word-leaf {
 @media (max-width: 900px) {
   .culture-image-title {
     font-size: 60px;
+  }
+  .culture-image > svg {
+    max-height: calc(100% - 140px);
   }
 }
 @media (max-width: 700px) {
@@ -2833,6 +2850,9 @@ svg.first-word-leaf {
   }
   .culture-image-title {
     font-size: 65px;
+  }
+  .culture-image {
+    aspect-ratio: 0.84;
   }
 }
 @media (min-width: 701px) and (max-width: 850px) {
@@ -3343,6 +3363,12 @@ select {
 .contact--letter .form-field textarea {
   min-height: 103px;
 }
+.contact--letter .form-field select {
+  appearance: none;
+  padding-right: 40px;
+  background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%23b74337' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 15px center;
+  cursor: pointer;
+}
 .contact--letter .form-field [aria-invalid="true"] {
   border-color: var(--red);
 }
@@ -3534,8 +3560,7 @@ select {
   display: flex;
   min-height: 44px;
   align-items: center;
-  justify-content: space-between;
-  gap: 20px;
+  gap: 10px;
   font-size: 13px;
 }
 .footer-main > div a:hover {
@@ -3595,20 +3620,14 @@ select {
   .footer-garden > svg {
     width: 60px;
   }
-  .footer-main > div a {
-    gap: 25px;
-  }
   .back-top {
     grid-column: 2;
     grid-row: 1;
   }
   .footer-bottom {
+    flex-wrap: wrap;
     font-size: 11px;
-    gap: 20px;
-  }
-  .footer-bottom > span:last-child {
-    max-width: 150px;
-    text-align: right;
+    gap: 6px 20px;
   }
   .footer-garden {
     padding-top: 22px;
