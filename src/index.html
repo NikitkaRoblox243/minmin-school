@@ -177,6 +177,16 @@
           <p class="consultation-letter__explanation" id="consultation-explanation">Первая консультация бесплатная. Заполните форму — откроется чат со школой, где сообщение уже написано. Останется нажать «Отправить».</p>
         </div>
         <div class="consultation-letter__form"><form id="consultation-form" novalidate data-endpoint="" aria-describedby="consultation-explanation">
+  <fieldset class="messenger-switch contact-channel" id="contact-channel">
+    <legend>Как вам удобнее связаться</legend>
+    <div class="messenger-switch__track">
+      <input type="radio" name="channel" id="channel-telegram" value="telegram" checked>
+      <label for="channel-telegram"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M21.5 4.2 2.9 11.4c-.9.4-.9 1.6.1 1.9l4.6 1.4 1.8 5.6c.2.7 1.1.9 1.6.4l2.6-2.5 4.9 3.6c.7.5 1.6.1 1.8-.7l3-14.7c.2-1-.8-1.8-1.8-1.4ZM9.4 14.5l8.6-7.6-6.9 8.8-.3 3-1.4-4.2Z" fill="currentColor"/></svg>Telegram</label>
+      <input type="radio" name="channel" id="channel-whatsapp" value="whatsapp">
+      <label for="channel-whatsapp"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2.5a9.5 9.5 0 0 0-8.2 14.3L2.6 21.4l4.7-1.2A9.5 9.5 0 1 0 12 2.5Zm0 17.3c-1.4 0-2.8-.4-4-1.1l-.3-.2-2.8.7.7-2.7-.2-.3A7.8 7.8 0 1 1 12 19.8Zm4.3-5.8c-.2-.1-1.4-.7-1.6-.8-.2-.1-.4-.1-.5.1l-.7.9c-.1.2-.3.2-.5.1a6.4 6.4 0 0 1-3.2-2.8c-.2-.4.2-.4.7-1.2.1-.2 0-.3 0-.4l-.7-1.7c-.2-.5-.4-.4-.5-.4h-.5c-.2 0-.4.1-.6.3-.2.2-.8.8-.8 1.9s.8 2.2.9 2.4c.1.1 1.6 2.5 4 3.5 1.5.6 2 .7 2.8.6.4-.1 1.4-.6 1.6-1.1.2-.6.2-1 .1-1.1l-.5-.3Z" fill="currentColor"/></svg>WhatsApp</label>
+      <span class="messenger-switch__pill" aria-hidden="true"></span>
+    </div>
+  </fieldset>
   <div class="form-grid">
     <div class="form-field">
       <label for="lead-name">Как вас зовут</label>
@@ -184,7 +194,7 @@
       <span class="field-error" id="error-name" data-error-for="name"></span>
     </div>
     <div class="form-field">
-      <label for="lead-contact">Telegram или телефон</label>
+      <label for="lead-contact" id="lead-contact-label">Telegram или телефон</label>
       <input id="lead-contact" name="contact" autocomplete="tel" placeholder="@username или +7 …" maxlength="80" required aria-describedby="error-contact">
       <span class="field-error" id="error-contact" data-error-for="contact"></span>
     </div>
@@ -245,6 +255,7 @@
 </section>
   </main>
   <footer class="footer"><div class="footer-garden" aria-hidden="true"><svg data-artwork="cloud" class="artwork-inline" focusable="false" aria-hidden="true"></svg><span lang="zh">再见</span><small>zài jiàn / до встречи</small><svg data-artwork="cloud-swept" class="artwork-inline" focusable="false" aria-hidden="true"></svg></div><div class="wrap footer-main"><a class="brand" href="#home"><img class="brand-symbol" src="assets/brand-panda.webp" width="49" height="50" alt=""><span>MinMin<span class="brand-sub">SCHOOL</span></span></a><p>Онлайн-школа китайского языка<br>для детей и взрослых</p><div><a href="https://t.me/minmin_school" target="_blank" rel="noopener noreferrer">Написать нам <span aria-hidden="true">↗</span></a><a href="https://t.me/minminschool" target="_blank" rel="noopener noreferrer">Наш Telegram-канал <span aria-hidden="true">↗</span></a></div><a href="#home" class="back-top" aria-label="Вернуться наверх">↑</a></div><div class="wrap footer-bottom"><span>© 2026 MinMin School</span><span>Китайский, который понимаешь!</span></div></footer>
+  <dialog id="success-dialog" class="success-dialog" aria-labelledby="success-dialog-title" aria-describedby="success-dialog-text"><button class="dialog-close" data-close-dialog aria-label="Закрыть окно">×</button><div class="success-dialog__art" aria-hidden="true"><img src="assets/brand-panda.webp" width="98" height="100" alt=""><span class="success-dialog__check"><svg viewBox="0 0 24 24" focusable="false"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div><p class="success-dialog__hanzi" aria-hidden="true"><span lang="zh">谢谢</span><small>xièxie / спасибо</small></p><h2 id="success-dialog-title">Заявка отправлена!</h2><p id="success-dialog-text">Мы получили вашу заявку и скоро напишем вам.</p><button class="button button--primary success-dialog__ok" type="button" data-close-dialog>Хорошо</button></dialog>
   <dialog id="teacher-dialog" class="teacher-dialog" aria-labelledby="teacher-dialog-title"><button class="dialog-close" data-close-dialog aria-label="Закрыть окно">×</button><div id="teacher-dialog-content"></div></dialog>
   <noscript><div class="noscript-note">Чтобы подобрать программу, <a href="https://t.me/minmin_school">напишите нам в Telegram</a>. Интерактивные блоки работают с JavaScript.</div></noscript>
 </body>

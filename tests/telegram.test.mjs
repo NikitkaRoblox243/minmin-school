@@ -69,7 +69,7 @@ test('confirmed upstream delivery transmits a plain-text message with server-onl
   assert.equal(request.options.method, 'POST');
   const payload = JSON.parse(request.options.body);
   assert.equal(payload.chat_id, '-123');
-  assert.equal(payload.text, '📩 Новая заявка с сайта\n\nИмя: Анна\nКонтакт: @anna_school\nНаправление: Китайский для взрослых\nФормат: Мини-группа — 3–5 учеников\nЦель: *HSK* <test>');
+  assert.equal(payload.text, '📩 Новая заявка с сайта\n\nИмя: Анна\nСвязаться: Telegram\nКонтакт: @anna_school\nНаправление: Китайский для взрослых\nФормат: Мини-группа — 3–5 учеников\nЦель: *HSK* <test>');
   assert.equal('parse_mode' in payload, false);
   assert.equal(JSON.stringify(result.body).includes('test-token'), false);
 });

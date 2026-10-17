@@ -1,6 +1,6 @@
 import { programs, teachers } from './data.js';
 import { programArt } from './artwork.js';
-import { validateLead, buildTelegramDraft, formatLabels, messengers, whatsappAvailable } from './lead.js';
+import { validateLead, buildTelegramDraft, formatLabels, channelLabels, messengers, whatsappAvailable } from './lead.js';
 
 const escapeHTML = (value) => String(value).replace(/[&<>"']/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[character]));
 const $ = (selector, scope = document) => scope.querySelector(selector);
@@ -109,6 +109,23 @@ const telegramLink = $('#telegram-draft');
 const copyButton = $('#copy-message');
 const messengerSwitch = $('#messenger-switch');
 const submitCopy = $('#submit-copy');
+const successDialog = $('#success-dialog');
+const successText = $('#success-dialog-text');
+const contactLabel = $('#lead-contact-label');
+const selectedChannel = () => {
+  const value = form?.elements.namedItem('channel')?.value;
+  return Object.hasOwn(channelLabels, value) ? value : 'telegram';
+};
+// Для WhatsApp нужен номер, поэтому подпись и подсказка поля контакта меняются вместе с переключателем.
+function updateContactField() {
+  const contact = form?.elements.namedItem('contact');
+  if (!contact) return;
+  const whatsapp = selectedChannel() === 'whatsapp';
+  if (contactLabel) contactLabel.textContent = whatsapp ? 'Номер WhatsApp' : 'Telegram или телефон';
+  contact.placeholder = whatsapp ? '+7 900 123-45-67' : '@username или +7 …';
+  contact.inputMode = whatsapp ? 'tel' : 'text';
+}
+updateContactField();
 // Переключатель показываем, только когда у школы указан номер WhatsApp; иначе остаётся Telegram.
 if (messengerSwitch && whatsappAvailable()) messengerSwitch.hidden = false;
 const selectedMessenger = () => {
@@ -143,6 +160,15 @@ if (configuredEndpoint) {
     .then((response) => (response.ok ? response.json() : null))
     .then((status) => { if (status?.ok === true && status.configured === true) enableDirectSubmission(configuredEndpoint); })
     .catch(() => { /* No server: keep the manual Telegram flow. */ });
+}
+function showSuccess(lead, opener) {
+  if (successText) {
+    successText.innerHTML = `Мы получили вашу заявку и скоро напишем вам в ${channelLabels[lead.channel] || 'Telegram'}: <strong>${escapeHTML(lead.contact.trim())}</strong>`;
+  }
+  form?.reset();
+  updateContactField();
+  updateSubmitCopy();
+  openDialog(successDialog, opener);
 }
 let preparedMessage = '';
 let pending = false;
@@ -249,6 +275,7 @@ if (form) {
     setFeedback('');
     const name = event.target.name;
     if (name === 'messenger') updateSubmitCopy();
+    else if (name === 'channel') { updateContactField(); clearFieldError('contact'); }
     else if (name) clearFieldError(name);
   });
   form.addEventListener('submit', async (event) => {
@@ -259,6 +286,7 @@ if (form) {
       name: field('name')?.value || '', contact: field('contact')?.value || '',
       program: field('program')?.value || '', goal: field('goal')?.value || '',
       format: field('format')?.value || 'undecided',
+      channel: selectedChannel(),
       consent: field('consent')?.checked === true,
     };
     const validation = validateLead(lead);
@@ -282,6 +310,7 @@ if (form) {
       const result = await response.json();
       if (response.ok && result.ok === true && result.code === 'sent') {
         setFeedback('Заявка отправлена школе. Мы свяжемся с вами по указанному контакту.', 'success');
+        showSuccess(lead, submitButton);
       } else if (result.code === 'validation_error') {
         showErrors(result.errors);
         setFeedback('Проверьте поля формы перед отправкой.', 'error');

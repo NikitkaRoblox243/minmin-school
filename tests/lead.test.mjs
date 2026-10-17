@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { validateLead, buildTelegramDraft, buildTelegramUrl, buildWhatsAppUrl, whatsappAvailable } from '../src/lead.js';
+import { validateLead, buildTelegramDraft, buildTelegramUrl, buildWhatsAppUrl, whatsappAvailable, buildLeadMessage } from '../src/lead.js';
 
 const lead = {
   name: 'Анна',
@@ -97,4 +97,20 @@ test('without a school number there is no WhatsApp link to offer', () => {
     assert.equal(whatsappAvailable(number || ''), false, String(number));
     assert.equal(buildWhatsAppUrl(lead, number || ''), null, String(number));
   }
+});
+
+test('WhatsApp as the contact channel needs a phone number', () => {
+  const base = { name: 'Анна', consent: true, channel: 'whatsapp' };
+  assert.ok(validateLead({ ...base, contact: '@anna_school' }).errors.contact.includes('WhatsApp'));
+  assert.equal(validateLead({ ...base, contact: '+7 900 123-45-67' }).valid, true);
+  assert.equal(validateLead({ ...base, channel: 'telegram', contact: '@anna_school' }).valid, true);
+  assert.ok(validateLead({ ...base, channel: 'viber', contact: '+7 900 123-45-67' }).errors.channel);
+});
+
+test('the lead message for the school chat names the channel and links a phone to its chat', () => {
+  const whatsapp = buildLeadMessage({ name: 'Анна', contact: '8 900 123-45-67', channel: 'whatsapp', program: 'adults' });
+  assert.ok(whatsapp.includes('\nСвязаться: WhatsApp\nКонтакт: 8 900 123-45-67\nНаписать: https://wa.me/79001234567\n'));
+  const telegramPhone = buildLeadMessage({ name: 'Анна', contact: '+7 900 123-45-67' });
+  assert.ok(telegramPhone.includes('\nСвязаться: Telegram\nКонтакт: +7 900 123-45-67\nНаписать: https://t.me/+79001234567\n'));
+  assert.doesNotMatch(buildLeadMessage({ name: 'Анна', contact: '@anna_school' }), /Написать:/);
 });
