@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="220" height="150" viewBox="0 0 220 150" fill="none">
+  <title>Письмо с красной печатью отправлено</title>
+  <g stroke-linecap="round" stroke-linejoin="round">
+    <ellipse cx="114" cy="136" rx="74" ry="8" fill="#e6edcf"/>
+    <path d="M24 66H44M16 80H40M26 94H42" stroke="#657640" stroke-width="2.2"/>
+    <path d="M168 26c0-6 5-10 11-10 5 0 8 3 9 7 6 0 10 4 10 9s-4 9-10 9h-18c-5 0-8-3-8-7s3-7 6-8Z" fill="#fffdf8" stroke="#b74337" stroke-width="1.6"/>
+    <path d="M178 30c2-3 6-3 8 0" stroke="#b74337" stroke-width="1.4"/>
+    <path d="M30 30l2.4 5.6L38 38l-5.6 2.4L30 46l-2.4-5.6L22 38l5.6-2.4Z" fill="#b74337"/>
+    <path d="M192 76l1.6 3.4L197 81l-3.4 1.6L192 86l-1.6-3.4L187 81l3.4-1.6Z" fill="#657640"/>
+    <g class="letter-sent__envelope" transform="rotate(-5 114 90)">
+      <rect x="60" y="52" width="108" height="72" rx="6" fill="#fffdf8" stroke="#272c27" stroke-width="1.8"/>
+      <path d="M72 30H156C159 30 161 32 161 35V86H67V35C67 32 69 30 72 30Z" fill="#fff" stroke="#272c27" stroke-width="1.6"/>
+      <path d="M80 44H136M80 55H148M80 66H124" stroke="#b74337" stroke-width="1.8"/>
+      <path d="M60 70L114 102L168 70V118C168 121 165 124 162 124H66C63 124 60 121 60 118Z" fill="#fffdf8" stroke="#272c27" stroke-width="1.8"/>
+      <path d="M60 122L98 94M168 122L130 94" stroke="#272c27" stroke-width="1.4" opacity=".55"/>
+      <g class="letter-sent__seal">
+        <circle cx="114" cy="102" r="17" fill="#b74337" stroke="#272c27" stroke-width="1.6"/>
+        <circle cx="114" cy="102" r="12.5" stroke="#fffdf8" stroke-width="1.2" opacity=".6"/>
+        <path d="M107 102.5l4.6 4.5 9-9.5" stroke="#fffdf8" stroke-width="3"/>
+      </g>
+    </g>
+  </g>
+</svg>
