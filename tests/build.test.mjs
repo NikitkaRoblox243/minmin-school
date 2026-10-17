@@ -11,7 +11,7 @@ test('the build inlines every illustration and versions every CSS/JS reference',
   try {
     const { artwork } = await build({ outDir });
     const html = await fs.readFile(path.join(outDir, 'index.html'), 'utf8');
-    assert.equal(artwork, 30);
+    assert.equal(artwork, 31);
     assert.equal((html.match(/<svg data-artwork=/g) || []).length, artwork);
     assert.doesNotMatch(html, /<svg data-artwork="[^"]+"[^>]*><\/svg>/, 'no empty placeholders remain');
     assert.match(html, /href="styles\.css\?v=[0-9a-f]{10}"/);
