@@ -46,6 +46,20 @@ export function buildTelegramDraft(input = {}) {
   ].join('\n');
 }
 
+// Сообщение, которое бот кладёт в закрытый чат школы.
+export function buildLeadMessage(input = {}) {
+  const program = programs.find((item) => item.id === input.program);
+  return [
+    '📩 Новая заявка с сайта',
+    '',
+    `Имя: ${singleLine(input.name)}`,
+    `Контакт: ${singleLine(input.contact)}`,
+    `Направление: ${program?.title || 'Помогите выбрать'}`,
+    `Формат: ${formatLabels[text(input.format)] || formatLabels.undecided}`,
+    `Цель: ${text(input.goal) || '—'}`,
+  ].join('\n');
+}
+
 export function buildTelegramUrl(input) {
   return `https://t.me/${contacts.telegram}?text=${encodeURIComponent(buildTelegramDraft(input))}`;
 }

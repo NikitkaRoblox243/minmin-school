@@ -1,7 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { Readable } from 'node:stream';
-import { createTelegramAdapter, createSiteServer, createRateLimiter } from '../server/index.mjs';
+import { createTelegramAdapter, createSiteServer, createRateLimiter, createLeadHandler } from '../server/index.mjs';
+import { botReply, createBotWebhook } from '../server/telegram-bot.mjs';
 
 const lead = { name: 'Анна', contact: '@anna_school', program: 'adults', goal: 'Китайский для поездок', consent: true };
 const env = { TELEGRAM_BOT_TOKEN: 'test-token', TELEGRAM_CHAT_ID: '-123' };
@@ -68,7 +69,7 @@ test('confirmed upstream delivery transmits a plain-text message with server-onl
   assert.equal(request.options.method, 'POST');
   const payload = JSON.parse(request.options.body);
   assert.equal(payload.chat_id, '-123');
-  assert.equal(payload.text, 'Здравствуйте! Хочу записаться на бесплатную первую консультацию в MinMin School.\n\nИмя: Анна\nКонтакт: @anna_school\nНаправление: Китайский для взрослых\nФормат: Мини-группа — 3–5 учеников\nЦель: *HSK* <test>');
+  assert.equal(payload.text, '📩 Новая заявка с сайта\n\nИмя: Анна\nКонтакт: @anna_school\nНаправление: Китайский для взрослых\nФормат: Мини-группа — 3–5 учеников\nЦель: *HSK* <test>');
   assert.equal('parse_mode' in payload, false);
   assert.equal(JSON.stringify(result.body).includes('test-token'), false);
 });
@@ -159,4 +160,60 @@ test('the rate limit window slides', () => {
   assert.equal(allow(), false);
   now = 1000;
   assert.equal(allow(), true);
+});
+
+test('a group upgraded to a supergroup still gets the lead at its new id', async () => {
+  const targets = [];
+  const submit = createTelegramAdapter({ env, transport: async (url, options) => {
+    const { chat_id: target } = JSON.parse(options.body);
+    targets.push(target);
+    return target === '-123'
+      ? { ok: false, json: async () => ({ ok: false, error_code: 400, parameters: { migrate_to_chat_id: -100777 } }) }
+      : { ok: true, json: async () => ({ ok: true }) };
+  } });
+  const result = await submit(lead);
+  assert.equal(result.status, 200);
+  assert.deepEqual(targets, ['-123', -100777]);
+});
+
+function capture() {
+  const result = {};
+  return { result, response: {
+    setHeader() {},
+    writeHead(status) { result.status = status; },
+    end(text) { result.body = JSON.parse(text); },
+  } };
+}
+
+test('a body already parsed by the Vercel runtime is accepted', async () => {
+  let sent;
+  const handle = createLeadHandler({ env, transport: async (url, options) => { sent = JSON.parse(options.body); return { ok: true, json: async () => ({ ok: true }) }; } });
+  const { result, response } = capture();
+  await handle({ method: 'POST', headers: { host: 'school.example', origin: 'https://school.example', 'content-type': 'application/json' }, body: lead }, response);
+  assert.equal(result.status, 200);
+  assert.match(sent.text, /Имя: Анна/);
+});
+
+test('the bot tells a chat its id and whether leads arrive there', () => {
+  const here = botReply({ message: { text: '/chatid@minmin_school_leads_bot', chat: { id: -123, type: 'group' } } }, env);
+  assert.equal(here.chat_id, -123);
+  assert.match(here.text, /Сюда приходят заявки/);
+  const other = botReply({ message: { text: '/chatid', chat: { id: -999, type: 'supergroup' } } }, env);
+  assert.match(other.text, /ID этого чата: -999/);
+  assert.match(other.text, /TELEGRAM_CHAT_ID/);
+  assert.equal(botReply({ message: { text: 'привет', chat: { id: -123, type: 'group' } } }, env), null);
+  const added = botReply({ my_chat_member: { chat: { id: -555, type: 'group' }, new_chat_member: { status: 'member' } } }, env);
+  assert.match(added.text, /-555/);
+});
+
+test('the webhook ignores requests without the Telegram secret', async () => {
+  const webhook = createBotWebhook({ env: { ...env, TELEGRAM_WEBHOOK_SECRET: 'top-secret' } });
+  const update = { message: { text: '/chatid', chat: { id: -123, type: 'group' } } };
+  const denied = capture();
+  await webhook({ method: 'POST', headers: { 'content-type': 'application/json', 'x-telegram-bot-api-secret-token': 'wrong' }, body: update }, denied.response);
+  assert.equal(denied.result.status, 401);
+  const allowed = capture();
+  await webhook({ method: 'POST', headers: { 'content-type': 'application/json', 'x-telegram-bot-api-secret-token': 'top-secret' }, body: update }, allowed.response);
+  assert.equal(allowed.result.status, 200);
+  assert.equal(allowed.result.body.method, 'sendMessage');
 });

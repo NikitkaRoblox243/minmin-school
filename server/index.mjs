@@ -2,7 +2,7 @@ import http from 'node:http';
 import { access, readFile, realpath, stat } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { validateLead, buildTelegramDraft } from '../src/lead.js';
+import { validateLead, buildLeadMessage } from '../src/lead.js';
 
 const defaultRoot = fileURLToPath(new URL('../dist/', import.meta.url));
 const jsonResult = (status, code, extra = {}) => ({ status, body: { ok: status === 200, code, ...extra } });
@@ -15,14 +15,21 @@ export function createTelegramAdapter({ env = process.env, transport = fetch } =
     const token = env.TELEGRAM_BOT_TOKEN?.trim();
     const chatId = env.TELEGRAM_CHAT_ID?.trim();
     if (!token || !chatId) return jsonResult(503, 'not_configured');
+    const send = (target) => transport(`https://api.telegram.org/bot${token}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id: target, text: buildLeadMessage(lead) }),
+      signal: AbortSignal.timeout(10000),
+    }).then(async (response) => ({ response, payload: await response.json() }));
     try {
-      const response = await transport(`https://api.telegram.org/bot${token}/sendMessage`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ chat_id: chatId, text: buildTelegramDraft(lead) }),
-        signal: AbortSignal.timeout(10000),
-      });
-      const payload = await response.json();
+      let { response, payload } = await send(chatId);
+      // A group upgraded to a supergroup gets a new id; Telegram rejects the old one without delivering,
+      // so resending to the new id cannot duplicate the lead.
+      const migrated = payload?.parameters?.migrate_to_chat_id;
+      if (payload?.ok !== true && migrated) {
+        console.warn(`TELEGRAM_CHAT_ID moved to ${migrated}; update the variable.`);
+        ({ response, payload } = await send(migrated));
+      }
       if (!response.ok || payload?.ok !== true) return jsonResult(502, 'telegram_error');
       return jsonResult(200, 'sent');
     } catch {
@@ -59,14 +66,22 @@ function cacheControl(extension, versioned) {
   return 'public, max-age=86400';
 }
 
-function respondJSON(response, result) {
+export function respondJSON(response, result) {
   response.writeHead(result.status, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' });
   response.end(JSON.stringify(result.body));
 }
 
-async function readJSONBody(request) {
+export async function readJSONBody(request) {
   if (!request.headers['content-type']?.startsWith('application/json')) {
     throw Object.assign(new Error(), { status: 415, code: 'json_required' });
+  }
+  // Vercel's Node runtime reads the stream itself and exposes the parsed body (a getter that throws on bad JSON).
+  if ('body' in request) {
+    let value;
+    try { value = request.body; } catch { throw Object.assign(new Error(), { status: 400, code: 'invalid_json' }); }
+    if (JSON.stringify(value ?? null).length > 8192) throw Object.assign(new Error(), { status: 413, code: 'body_too_large' });
+    if (!value || typeof value !== 'object' || Array.isArray(value)) throw Object.assign(new Error(), { status: 400, code: 'invalid_json' });
+    return value;
   }
   let bytes = 0;
   let tooLarge = false;
@@ -110,9 +125,39 @@ function originAllowed(origin, host, publicOrigin) {
   }
 }
 
-export function createSiteServer({ env = process.env, transport = fetch, distRoot = defaultRoot, rateLimiter = createRateLimiter() } = {}) {
+// POST /api/leads (and GET for the "is the bot configured" probe). Used by the local server and by
+// the Vercel function in api/leads.js.
+export function createLeadHandler({ env = process.env, transport = fetch, rateLimiter = createRateLimiter() } = {}) {
   const submit = createTelegramAdapter({ env, transport });
   const publicOrigin = parsePublicOrigin(env.SITE_ORIGIN);
+  return async (request, response) => {
+    response.setHeader('X-Content-Type-Options', 'nosniff');
+    if (request.method === 'GET' || request.method === 'HEAD') {
+      respondJSON(response, { status: 200, body: { ok: true, configured: telegramConfigured(env) } });
+      return;
+    }
+    if (request.method !== 'POST') {
+      response.setHeader('Allow', 'GET, POST');
+      respondJSON(response, jsonResult(405, 'method_not_allowed'));
+      return;
+    }
+    if (!originAllowed(request.headers.origin, request.headers.host, publicOrigin)) {
+      respondJSON(response, jsonResult(403, 'origin_not_allowed'));
+      return;
+    }
+    let lead;
+    try { lead = await readJSONBody(request); }
+    catch (error) { respondJSON(response, jsonResult(error.status || 400, error.code || 'invalid_request')); return; }
+    if (validateLead(lead).valid && telegramConfigured(env) && !rateLimiter()) {
+      respondJSON(response, jsonResult(429, 'rate_limited'));
+      return;
+    }
+    respondJSON(response, await submit(lead));
+  };
+}
+
+export function createSiteServer({ env = process.env, transport = fetch, distRoot = defaultRoot, rateLimiter = createRateLimiter() } = {}) {
+  const handleLead = createLeadHandler({ env, transport, rateLimiter });
   return http.createServer(async (request, response) => {
     response.setHeader('X-Content-Type-Options', 'nosniff');
     response.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
@@ -121,30 +166,7 @@ export function createSiteServer({ env = process.env, transport = fetch, distRoo
     try { pathname = decodeURIComponent(rawPath); }
     catch { response.writeHead(400); response.end('Bad request'); return; }
 
-    if (pathname === '/api/leads') {
-      if (request.method === 'GET' || request.method === 'HEAD') {
-        respondJSON(response, { status: 200, body: { ok: true, configured: telegramConfigured(env) } });
-        return;
-      }
-      if (request.method !== 'POST') {
-        response.setHeader('Allow', 'GET, POST');
-        respondJSON(response, jsonResult(405, 'method_not_allowed'));
-        return;
-      }
-      if (!originAllowed(request.headers.origin, request.headers.host, publicOrigin)) {
-        respondJSON(response, jsonResult(403, 'origin_not_allowed'));
-        return;
-      }
-      let lead;
-      try { lead = await readJSONBody(request); }
-      catch (error) { respondJSON(response, jsonResult(error.status || 400, error.code || 'invalid_request')); return; }
-      if (validateLead(lead).valid && telegramConfigured(env) && !rateLimiter()) {
-        respondJSON(response, jsonResult(429, 'rate_limited'));
-        return;
-      }
-      respondJSON(response, await submit(lead));
-      return;
-    }
+    if (pathname === '/api/leads') { await handleLead(request, response); return; }
 
     if (request.method !== 'GET' && request.method !== 'HEAD') {
       response.writeHead(405, { Allow: 'GET, HEAD' }); response.end(); return;
