@@ -18,7 +18,8 @@ export function createTelegramAdapter({ env = process.env, transport = fetch } =
     const send = (target) => transport(`https://api.telegram.org/bot${token}/sendMessage`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ chat_id: target, text: buildLeadMessage(lead) }),
+      // No link preview: a wa.me link would otherwise add a large WhatsApp card under every lead.
+      body: JSON.stringify({ chat_id: target, text: buildLeadMessage(lead), link_preview_options: { is_disabled: true } }),
       signal: AbortSignal.timeout(10000),
     }).then(async (response) => ({ response, payload: await response.json() }));
     try {
