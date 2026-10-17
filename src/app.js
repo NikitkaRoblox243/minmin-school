@@ -60,8 +60,7 @@ function selectProgram(id, focus = false) {
     </div>
     <div class="program-details">
       <ul class="program-points">${program.points.map((point) => `<li>${escapeHTML(point)}</li>`).join('')}</ul>
-      <p class="program-formats">${escapeHTML(program.formats)}</p>
-      <button class="button button--primary" type="button" data-consultation data-program="${program.id}">${escapeHTML(program.cta)} <span aria-hidden="true">↗</span></button>
+      <button class="button button--primary" type="button" data-consultation data-program="${program.id}">${escapeHTML(program.cta)} <span aria-hidden="true">→</span></button>
     </div>`;
 }
 for (const tab of tabs) {
@@ -235,8 +234,7 @@ document.addEventListener('click', (event) => {
         <h2 id="teacher-dialog-title">${escapeHTML(teacher.name)}</h2>
         <p class="teacher-profile__qualification">${escapeHTML(teacher.qualification)}</p>
         <p>${escapeHTML(teacher.summary)}</p>
-        <ul class="teacher-profile__facts">${teacher.facts.map((fact) => `<li>${escapeHTML(fact)}</li>`).join('')}</ul>
-        <button class="button button--primary" type="button" data-consultation>Подобрать преподавателя <span aria-hidden="true">↗</span></button>
+        <button class="button button--primary" type="button" data-consultation>Записаться на консультацию <span aria-hidden="true">→</span></button>
       </div>
     </div>`;
   teacherDialog?.setAttribute('aria-labelledby', 'teacher-dialog-title');
