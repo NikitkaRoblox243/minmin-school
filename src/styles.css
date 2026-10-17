@@ -3919,6 +3919,9 @@ dialog[open]::backdrop {
   font-size: 13px;
   line-height: 1.75;
 }
+.teacher-profile__body .button {
+  font-size: 14px;
+}
 @media (max-width: 700px) {
   .teacher-profile__body h2 {
     font-size: 31px;

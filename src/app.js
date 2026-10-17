@@ -260,6 +260,7 @@ document.addEventListener('click', (event) => {
         <h2 id="teacher-dialog-title">${escapeHTML(teacher.name)}</h2>
         <p class="teacher-profile__qualification">${escapeHTML(teacher.qualification)}</p>
         <p>${escapeHTML(teacher.summary)}</p>
+        <button class="button button--primary" type="button" data-consultation>Записаться на консультацию <span aria-hidden="true">→</span></button>
       </div>
     </div>`;
   teacherDialog?.setAttribute('aria-labelledby', 'teacher-dialog-title');
