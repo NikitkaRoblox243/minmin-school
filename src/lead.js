@@ -1,4 +1,4 @@
-import { programs } from './data.js';
+import { contacts, programs } from './data.js';
 
 const text = (value) => typeof value === 'string' ? value.trim() : '';
 const singleLine = (value) => text(value).replace(/[\r\n]+/g, ' ');
@@ -47,5 +47,20 @@ export function buildTelegramDraft(input = {}) {
 }
 
 export function buildTelegramUrl(input) {
-  return `https://t.me/minmin_school?text=${encodeURIComponent(buildTelegramDraft(input))}`;
+  return `https://t.me/${contacts.telegram}?text=${encodeURIComponent(buildTelegramDraft(input))}`;
 }
+
+const whatsappNumber = (number = contacts.whatsapp) => String(number || '').replace(/\D/g, '');
+export const whatsappAvailable = (number) => whatsappNumber(number).length >= 10;
+
+// wa.me открывает чат с номером школы и уже набранным текстом; без номера ссылка не строится.
+export function buildWhatsAppUrl(input, number) {
+  const digits = whatsappNumber(number);
+  if (!whatsappAvailable(digits)) return null;
+  return `https://wa.me/${digits}?text=${encodeURIComponent(buildTelegramDraft(input))}`;
+}
+
+export const messengers = {
+  telegram: { label: 'Telegram', buildUrl: buildTelegramUrl },
+  whatsapp: { label: 'WhatsApp', buildUrl: buildWhatsAppUrl },
+};

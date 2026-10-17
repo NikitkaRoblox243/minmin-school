@@ -25,6 +25,8 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 100px;
+  /* Место под полосу прокрутки остаётся, когда окно преподавателя блокирует прокрутку: страница не сдвигается. */
+  scrollbar-gutter: stable;
 }
 body {
   margin: 0;
@@ -33,7 +35,7 @@ body {
   font: 16px/1.6 var(--body);
   -webkit-font-smoothing: antialiased;
 }
-body.has-open-dialog {
+html:has(body.has-open-dialog) {
   overflow: hidden;
 }
 button {
@@ -3382,6 +3384,90 @@ select {
   font-size: 12px;
   line-height: 1.7;
 }
+/* Переключатель Telegram / WhatsApp: белая «таблетка» переезжает к выбранному варианту. */
+.messenger-switch {
+  min-width: 0;
+  margin: 18px 0 0;
+  padding: 0;
+  border: 0;
+}
+.messenger-switch legend {
+  margin-bottom: 8px;
+  padding: 0;
+  font-size: 13px;
+  font-weight: 500;
+}
+.messenger-switch__track {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 4px;
+  border: 1px solid #b8c0a9;
+  border-radius: 999px;
+  background: #eef2df;
+}
+.messenger-switch input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+.messenger-switch label {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.25s;
+}
+.messenger-switch label svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  opacity: 0.7;
+  transition: color 0.25s, opacity 0.25s;
+}
+.messenger-switch input:checked + label {
+  color: var(--ink);
+}
+.messenger-switch input:checked + label svg {
+  opacity: 1;
+}
+#messenger-telegram:checked + label svg {
+  color: #229ed9;
+}
+#messenger-whatsapp:checked + label svg {
+  color: #1fa855;
+}
+.messenger-switch input:focus-visible + label {
+  outline: 3px solid var(--red);
+  outline-offset: 2px;
+}
+.messenger-switch__pill {
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  left: 4px;
+  width: calc(50% - 4px);
+  border-radius: 999px;
+  background: #fff;
+  box-shadow: 0 2px 8px #272c271f;
+  transition: transform 0.3s var(--ease);
+}
+#messenger-whatsapp:checked ~ .messenger-switch__pill {
+  transform: translateX(100%);
+}
+@media (prefers-reduced-motion: reduce) {
+  .messenger-switch__pill {
+    transition: none;
+  }
+}
 .contact--letter .form-submit {
   min-height: 52px;
   margin-top: 18px;
@@ -3687,6 +3773,9 @@ dialog::backdrop {
 dialog[open] {
   animation: dialog-in 0.25s var(--ease);
 }
+dialog[open]::backdrop {
+  animation: backdrop-in 0.25s ease-out;
+}
 .dialog-close {
   position: absolute;
   z-index: 2;
@@ -3809,6 +3898,11 @@ dialog[open] {
 }
 
 /* ==== Анимации ==== */
+@keyframes backdrop-in {
+  from {
+    opacity: 0;
+  }
+}
 @keyframes dialog-in {
   from {
     opacity: 0;

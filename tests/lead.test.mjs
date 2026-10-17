@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { validateLead, buildTelegramDraft, buildTelegramUrl } from '../src/lead.js';
+import { validateLead, buildTelegramDraft, buildTelegramUrl, buildWhatsAppUrl, whatsappAvailable } from '../src/lead.js';
 
 const lead = {
   name: 'Анна',
@@ -84,3 +84,17 @@ for (const { format, label } of [
     assert.ok(buildTelegramDraft({ ...lead, format }).includes(`\nФормат: ${label}\n`));
   });
 }
+
+test('WhatsApp URL opens the school number with the same prefilled message', () => {
+  const result = new URL(buildWhatsAppUrl({ ...lead, format: 'group' }, '+7 (900) 123-45-67'));
+  assert.equal(result.origin, 'https://wa.me');
+  assert.equal(result.pathname, '/79001234567');
+  assert.equal(result.searchParams.get('text'), buildTelegramDraft({ ...lead, format: 'group' }));
+});
+
+test('without a school number there is no WhatsApp link to offer', () => {
+  for (const number of ['', '123', undefined]) {
+    assert.equal(whatsappAvailable(number || ''), false, String(number));
+    assert.equal(buildWhatsAppUrl(lead, number || ''), null, String(number));
+  }
+});

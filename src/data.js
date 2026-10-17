@@ -1,3 +1,10 @@
+// Куда уходит сообщение с формы записи. WhatsApp появится в переключателе,
+// как только здесь будет номер школы (только цифры с кодом страны, например '79001234567').
+export const contacts = {
+  telegram: 'minmin_school',
+  whatsapp: '',
+};
+
 export const programs = [
   {
     id: 'children',

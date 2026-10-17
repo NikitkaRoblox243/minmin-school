@@ -1,6 +1,6 @@
 import { programs, teachers } from './data.js';
 import { programArt } from './artwork.js';
-import { validateLead, buildTelegramDraft, buildTelegramUrl, formatLabels } from './lead.js';
+import { validateLead, buildTelegramDraft, formatLabels, messengers, whatsappAvailable } from './lead.js';
 
 const escapeHTML = (value) => String(value).replace(/[&<>"']/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[character]));
 const $ = (selector, scope = document) => scope.querySelector(selector);
@@ -108,6 +108,17 @@ const form = $('#consultation-form');
 const feedback = $('#form-feedback');
 const telegramLink = $('#telegram-draft');
 const copyButton = $('#copy-message');
+const messengerSwitch = $('#messenger-switch');
+const submitCopy = $('#submit-copy');
+// Переключатель показываем, только когда у школы указан номер WhatsApp; иначе остаётся Telegram.
+if (messengerSwitch && whatsappAvailable()) messengerSwitch.hidden = false;
+const selectedMessenger = () => {
+  const value = form?.elements.namedItem('messenger')?.value;
+  return Object.hasOwn(messengers, value) && messengers[value].buildUrl({}) ? value : 'telegram';
+};
+function updateSubmitCopy() {
+  if (submitCopy && !submissionEndpoint) submitCopy.textContent = `Отправить в ${messengers[selectedMessenger()].label}`;
+}
 // Direct submission is enabled only after the server confirms that the Telegram bot is configured.
 // On static hosting, or before the bot is set up, the form keeps the manual Telegram draft.
 let submissionEndpoint;
@@ -123,7 +134,7 @@ function enableDirectSubmission(endpoint) {
   submissionEndpoint = endpoint;
   const explanation = $('#consultation-explanation');
   const consentCopy = $('#consent-copy');
-  const submitCopy = $('#submit-copy');
+  if (messengerSwitch) messengerSwitch.hidden = true;
   if (explanation) explanation.textContent = 'Передадим ваши имя, контакт и цель школе.';
   if (consentCopy) consentCopy.textContent = 'Согласен передать указанные имя, контакт и цель школе для связи по заявке.';
   if (submitCopy) submitCopy.textContent = 'Отправить заявку';
@@ -170,14 +181,18 @@ function showErrors(errors = {}) {
     }
   }
 }
-function prepareTelegram(lead, message) {
+function prepareTelegram(lead, message, { open = false } = {}) {
+  const messenger = messengers[selectedMessenger()];
+  const url = messenger.buildUrl(lead);
   preparedMessage = buildTelegramDraft(lead);
   if (telegramLink) {
-    telegramLink.href = buildTelegramUrl(lead);
+    telegramLink.href = url;
+    telegramLink.innerHTML = `Чат не открылся? Открыть ${messenger.label} <span aria-hidden="true">↗</span>`;
     telegramLink.hidden = false;
   }
   if (copyButton) copyButton.hidden = false;
-  setFeedback(message || 'Сообщение подготовлено. Откройте Telegram и отправьте его школе. До этого заявка не отправлена.', 'ready');
+  if (open) window.open(url, '_blank', 'noopener');
+  setFeedback(message || `Открываем ${messenger.label}: сообщение для школы уже набрано в чате. Нажмите там «Отправить» — и заявка у нас.`, 'ready');
 }
 
 document.addEventListener('click', (event) => {
@@ -235,7 +250,8 @@ if (form) {
     clearPrepared();
     setFeedback('');
     const name = event.target.name;
-    if (name) clearFieldError(name);
+    if (name === 'messenger') updateSubmitCopy();
+    else if (name) clearFieldError(name);
   });
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
@@ -254,7 +270,7 @@ if (form) {
       field(Object.keys(validation.errors)[0])?.focus();
       return;
     }
-    if (!submissionEndpoint) { prepareTelegram(lead); return; }
+    if (!submissionEndpoint) { prepareTelegram(lead, '', { open: true }); return; }
     const submitButton = $('[type="submit"]', form);
     pending = true;
     if (submitButton) submitButton.disabled = true;
@@ -292,9 +308,9 @@ copyButton?.addEventListener('click', async () => {
   if (!preparedMessage) return;
   try {
     await navigator.clipboard.writeText(preparedMessage);
-    setFeedback('Сообщение скопировано. Вставьте его в чат школы в Telegram и отправьте.', 'ready');
+    setFeedback(`Сообщение скопировано. Вставьте его в чат школы в ${messengers[selectedMessenger()].label} и отправьте.`, 'ready');
   } catch {
-    setFeedback('Браузер не разрешил копирование. Откройте Telegram: сообщение будет подготовлено в чате.', 'ready');
+    setFeedback(`Браузер не разрешил копирование. Откройте ${messengers[selectedMessenger()].label}: сообщение будет подготовлено в чате.`, 'ready');
   }
 });
 
