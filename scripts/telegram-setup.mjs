@@ -35,10 +35,21 @@ function vercel(args, input) {
     input, encoding: 'utf8', shell: process.platform === 'win32',
     env: { ...process.env, NODE_OPTIONS: '--dns-result-order=ipv4first' },
   });
-  if (result.status !== 0) throw new Error(`vercel ${args[0]} ${args[1] || ''}: ${(result.stderr || result.stdout).trim().split('\n').pop()}`);
+  if (result.status !== 0) {
+    const reason = `${result.stderr}\n${result.stdout}`.split('\n').filter((line) => /error/i.test(line) && !/Deprecation/.test(line)).join(' ');
+    throw new Error(`vercel ${args[0]} ${args[1] || ''}: ${reason || 'failed'}`);
+  }
 }
 
-const token = await askHidden('Вставьте токен бота из @BotFather и нажмите Enter: ');
+// --clipboard: take the token copied in Telegram (click it in the @BotFather message), then wipe the clipboard.
+function clipboardToken() {
+  const read = spawnSync('powershell', ['-NoProfile', '-Command', 'Get-Clipboard'], { encoding: 'utf8' });
+  spawnSync('powershell', ['-NoProfile', '-Command', 'Set-Clipboard -Value " "']);
+  return (read.stdout || '').trim();
+}
+const token = process.argv.includes('--clipboard')
+  ? clipboardToken()
+  : await askHidden('Вставьте токен бота из @BotFather и нажмите Enter: ');
 if (!/^\d+:[\w-]{30,}$/.test(token)) { console.error('Это не похоже на токен бота.'); process.exit(1); }
 
 const bot = await telegram(token, 'getMe');
